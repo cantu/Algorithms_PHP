@@ -6,8 +6,6 @@
  * Time: 下午4:40
  */
 
-$a =  '1234';
-
-echo $a."\n";
-$b = '===='.$a;
-echo 'hello';
+echo 'floor(4.5): '.floor( 4.5 )."\n";
+echo 'ceil(4.5):  '.ceil( 4.5)."\n";
+echo 'intval(4.5): '.intval( 4.5)."\n";
