@@ -11,10 +11,10 @@ namespace tusion\algorithms;
 require_once './Node.php';
 class LinkList {
 
-    private $header ;
-    private $last_node ;
-    private $length ; //链表长度
-    private static $is_debug = true; //控制调试输出，打印更多信息
+    protected $header ;
+    protected $last_node ;
+    protected $length ; //链表长度
+    protected static $is_debug = true; //控制调试输出，打印更多信息
 
     function __construct()
     {
@@ -30,17 +30,23 @@ class LinkList {
     }
 
 
+
     /**
      * 在链表后面添加一个元素
      * @param $data
+     * @return bool
      */
-
     function add_node( $data )
     {
-        if( $this->last_node == null )
+        if($data === null )
+        {
+            echo"Error, input data is null\n";
+            return false;
+        }
+        if( $this->last_node === null )
         {
             $this->last_node = new Node( $data,null, null);
-            if( $this->header == null )
+            if( $this->header === null )
             {
                 $this->header = $this->last_node;
             }
@@ -51,6 +57,7 @@ class LinkList {
             $this->last_node = $this->last_node->next;
         }
         $this->length++;
+        return true;
     }
 
     function add_node_at_head( $data )
@@ -73,7 +80,7 @@ class LinkList {
      */
     function del_node( $data )
     {
-        if( $data == null )
+        if( $data === null )
         {
             echo"error: to delete element is not correct;\n";
             return false;
@@ -84,7 +91,7 @@ class LinkList {
         {
             if( $cur_node->data == $data )
             {
-                if( $pre_node == null )
+                if( $pre_node === null )
                 {
                     $this->header = $cur_node->next;
                 }
@@ -109,7 +116,7 @@ class LinkList {
      */
     function update_value( $old_value, $new_value )
     {
-        if( $old_value == null || $new_value == null )
+        if( $old_value === null || $new_value === null )
         {
             return false;
         }
@@ -135,7 +142,7 @@ class LinkList {
     function traversal()
     {
         $arr = array();
-        if( $this->header == null )
+        if( $this->header === null )
             return null;
 
         if( $this->length <=0 )
@@ -149,25 +156,26 @@ class LinkList {
         return $arr;
     }
 
+
     /**
-     * 搜索某个元素是否在链表中
+     * 搜索某个元素在链表中的位置.
      * @param $value
-     * @return bool
+     * @return null
      */
     function search_node( $value )
     {
-        if( $value == null )
+        if( $value === null )
         {
-            return false;
+            return null;
         }
         for( $node=$this->header; $node!=null; $node = $node->next)
         {
             if( $value == $node->data )
             {
-                return true;
+                return $node;
             }
         }
-        return false;
+        return null;
     }
 
 
@@ -177,7 +185,7 @@ class LinkList {
      */
     function to_string()
     {
-        if( $this->header == null )
+        if( $this->header === null )
         {
             echo "List is empty\n";
             return null;
@@ -280,23 +288,21 @@ class LinkList {
     {
         $list =  new LinkList();
         $list->set_debug( true);
-        /*
-        for( $i=0; $i<10; $i++)
+
+        for( $i=0; $i<4; $i++)
         {
-           $list->add_node( \rand(1,10));
-            //$list->add_node( $i );
+           //$list->add_node( \rand(1,10));
+           $list->add_node( $i );
         }
-        */
-        $list->add_node(3);
-        $list->add_node(2);
-        $list->add_node(1);
+
+
         $list->to_string();
         echo"list size: ".$list->get_length()."\n";
 
-
-        if( $list->search_node(1) )
+        $node = $list->search_node(1);
+        if( $node != null )
         {
-            echo"success searched 1:  ";
+            echo"success searched data:  ".$node->data."\n";
             $list->to_string();
         }
 
@@ -312,14 +318,9 @@ class LinkList {
         }
 
 
-        if( $list->search_node(3) )
-        {
-            echo"success searched 1:  ";
-            $list->to_string();
-        }
-        $list->update_value(3,1);
-        $list->to_string();
-        $list->del_node(1);
+        $list->update_value(0,555);
+        echo 'update 0 to 555: '.$list->to_string()."\n";
+        $list->del_node(555);
 
         $list->clear_list();
         $list->to_string();
@@ -332,18 +333,26 @@ class LinkList {
             echo "is_empty test failed \n";
         }
 
-        for($i=0; $i<50000; $i++)
+        for($i=0; $i<5; $i++)
         {
             $list->add_node_at_head( $i);
         }
         $list->to_string();
         $list->clear_list();
         $list->to_string();
+
+        $list->set_debug( false );
     }
 
 
 }
 
-LinkList::unit_test();
+//当继承时,运行下面的单元测试,会先调用父类的unit_test()
+//加入执行环境判断后,就只执行这个子类的测试.
+if (realpath($argv[0]) == realpath(__FILE__))
+{
+    exit(LinkList::unit_test());
+}
+
 
 

@@ -9,33 +9,36 @@
 namespace tusion\algorithms;
 
 require_once './Node.php';
-class DoubleLinkList {
-    private $header;
-    private $last_node;
-    private $length;
+require_once './LinkList.php';
+
+class DoubleLinkList extends LinkList{
+    //private $pre_node;
 
     function __constract()
     {
-        $this->header = null;
-        $this->last_node = null;
-        $this->length = 0;
+        parent::__construct();
+        $this->pre_node = null;
     }
 
     function __descontract()
     {
-        ;
+        parent::__destruct();
     }
 
     function add_node( $data )
     {
         if( $data === null)
         {
+            echo"Error, input data is null\n";
             return false;
         }
         if( $this->last_node === null)
         {
             $this->last_node = new Node( $data, null, null);
-            $this->header = $this->last_node;
+            if( $this->header === null )
+            {
+                $this->header = $this->last_node;
+            }
         }
         else
         {
@@ -49,62 +52,26 @@ class DoubleLinkList {
         return true;
     }
 
-    function traversal(  )
-    {
-        if( $this->header === null )
-        {
-            return null;
-        }
-        if( $this->length <= 0 )
-        {
-            return null;
-        }
-        $arr = array();
-        for( $node=$this->header; $node!=null; $node=$node->next)
-        {
-            $arr[] = $node->data;
-        }
-        return $arr;
-    }
 
-    function
 
-    function to_string( )
-    {
-        if( $this->header === null)
-        {
-            echo"Error, list is null\n";
-            return null;
-        }
-        $arr = $this->traversal( );
-        if( \is_array( $arr ) )
-        {
-            $str = \implode(', ', $arr);
-            echo $str." \n";
-            return $str;
 
-        }
-        else
-        {
-            echo"List is empty;\n";
-            return null;
-        }
-
-    }
 
     /**
      * 单元测试
      */
     public static function unit_test( )
     {
-        $double_list = new DoubleLinkList();
-        for($i=1; $i<4; $i++)
-        {
-            $double_list->add_node( $i );
-        }
-        //\var_dump( $double_list);
-        $double_list->to_string();
+        echo"basic test from LinkList:\n";
+        parent::unit_test();
+
+        echo"test from DoubleLinkList unit test: \n";
+
     }
 }
 
-DoubleLinkList::unit_test();
+//当继承时,运行下面的单元测试,会先调用父类的unit_test()
+//加入执行环境判断后,就只执行这个子类的测试.
+if (realpath($argv[0]) == realpath(__FILE__))
+{
+    exit(DoubleLinkList::unit_test());
+}
