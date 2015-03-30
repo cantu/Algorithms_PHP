@@ -14,7 +14,7 @@ class Node {
     public $next = null;
     public $pre = null;
 
-    function __construct( $data, $next, $pre=null)
+    function __construct( $data=0, $next=null, $pre=null)
     {
         $this->data = $data;
         $this->next = $next;

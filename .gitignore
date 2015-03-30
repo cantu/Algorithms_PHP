@@ -23,7 +23,11 @@ data/
 
 .idea/
 
+#add /reference/Opus11-1.0
+#!/reference/Opus11-1.0/
 /reference
 /vendor
 #composer usual generate composer.lock
 *.lock
+
+
