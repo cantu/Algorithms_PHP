@@ -8,7 +8,7 @@
 
 namespace tusion\algorithms;
 
-require_once './Node.php';
+require_once './LinkNode.php';
 require_once './LinkList.php';
 
 class DoubleLinkList extends LinkList{
@@ -34,7 +34,7 @@ class DoubleLinkList extends LinkList{
         }
         if( $this->last_node === null)
         {
-            $this->last_node = new Node( $data, null, null);
+            $this->last_node = new LinkNode( $data, null, null);
             if( $this->header === null )
             {
                 $this->header = $this->last_node;
@@ -43,7 +43,7 @@ class DoubleLinkList extends LinkList{
         else
         {
 
-            $this->last_node->next= new Node( $data, null, $this->last_node);
+            $this->last_node->next= new LinkNode( $data, null, $this->last_node);
             //$this->last_node->pre = $pre_node;
             $this->last_node = $this->last_node->next;
 

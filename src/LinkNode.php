@@ -9,7 +9,7 @@
 namespace tusion\algorithms;
 
 
-class Node {
+class LinkNode {
     public $data;
     public $next = null;
     public $pre = null;
@@ -71,4 +71,11 @@ class Node {
         ;
     }
 }
-Node::unit_test();
+
+
+//当继承时,运行下面的单元测试,会先调用父类的unit_test()
+//加入执行环境判断后,就只执行这个子类的测试.
+if (realpath($argv[0]) == realpath(__FILE__))
+{
+    exit(LinkNode::unit_test());
+}

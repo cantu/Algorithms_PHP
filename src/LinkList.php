@@ -8,7 +8,8 @@
 
 namespace tusion\algorithms;
 
-require_once './Node.php';
+require_once './LinkNode.php';
+require_once './Utils.php';
 class LinkList {
 
     protected $header ;
@@ -45,7 +46,7 @@ class LinkList {
         }
         if( $this->last_node === null )
         {
-            $this->last_node = new Node( $data,null, null);
+            $this->last_node = new LinkNode( $data,null, null);
             if( $this->header === null )
             {
                 $this->header = $this->last_node;
@@ -53,7 +54,7 @@ class LinkList {
         }
         else
         {
-            $this->last_node->next = new Node( $data, null, null);
+            $this->last_node->next = new LinkNode( $data, null, null);
             $this->last_node = $this->last_node->next;
         }
         $this->length++;
@@ -67,7 +68,7 @@ class LinkList {
             echo "add data is invalid\n";
             return false;
         }
-        $new_head_node = new Node( $data, $this->header, null );
+        $new_head_node = new LinkNode( $data, $this->header, null );
         $this->header = $new_head_node;
         $this->length++;
         return true;
@@ -264,10 +265,12 @@ class LinkList {
         }
     }
 
-    //测试一个链表是否有环
+
+    //TODO 测试一个链表是否有环
     function cycle_detect( $list )
     {
         ;
+
     }
 
     function set_debug( $is_debug)
@@ -278,7 +281,7 @@ class LinkList {
         }
         else
         {
-            self::$is_debug == false;
+            self::$is_debug = false;
         }
     }
     /**
@@ -333,15 +336,19 @@ class LinkList {
             echo "is_empty test failed \n";
         }
 
-        for($i=0; $i<5; $i++)
+        $list->set_debug( false );
+        $util = new Utils();
+        $util->probe_result();
+        for($i=0; $i<20000; $i++)
         {
             $list->add_node_at_head( $i);
         }
-        $list->to_string();
+       // $list->to_string();
         $list->clear_list();
-        $list->to_string();
+       // $list->to_string();
+        $util->probe_end();
+        $util->probe_result();
 
-        $list->set_debug( false );
     }
 
 
